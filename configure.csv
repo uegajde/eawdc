@@ -1,0 +1,20 @@
+LZ Weather Data Downloader2 config file,,,,,
+format version,1,,,,
+General,switch,,,,
+start,,,,,
+record,0,,,,
+end,,,,,
+Items,custom,switch,period,density,errorlog
+start,,,,,
+JMA_Weather_Chart_1,0,1,1,1,0
+JMA_Weather_Chart_2,0,1,48,6,0
+JMA_WaterVapor_Image,0,1,18,1,0
+CWB_Surface_Weather_Chart,0,1,48,1,0
+CWB_Skew,0,1,1,1,0
+CWB_Radar,0,1,1080,30,0
+CWB_Satellite,0,1,1080,30,0
+CWB_Surface_Temperature,0,1,18,1,0
+CWB_Precipitation,0,1,1080,30,0
+CWB_850hpa_WindSpeed_Streamline,0,1,48,6,0
+CWB_850hpa_RH_Streamline,0,1,48,6,0
+end,,,,,

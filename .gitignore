@@ -99,3 +99,13 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# downloaded
+data/
+
+# py2exe
+setup.py
+dist/
+
+# temp 
+test.py
