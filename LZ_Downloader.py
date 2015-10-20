@@ -1,20 +1,16 @@
-# LZ Weather Data Downloader
+# LZ Downloader
 
 # program version information
 
-version = "2.0 beta-1 (20150729)"
+version = "2.0 beta-2 (20150804)"
 author = "Lin Zhe-Hui"
-print ("LZ Weather Data Downloader")
+print ("LZ Downloader")
 print ("Version : ",version)
 print ("__________________________")
-# github site : 
+# github site : https://github.com/uegajde/LZ_Downloader
 
-import downloader
 import configloader
-import repeatfileremover
-
-# read configure file
-#configloader.readconfig() 
+import downloader
 
 # start to download
 downloader.download(configloader.configure)

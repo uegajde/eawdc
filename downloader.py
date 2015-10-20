@@ -5,12 +5,11 @@ import os
 from datetime import datetime
 from datetime import timedelta
 
-if not os.path.exists("./data/"):
-    os.makedirs("./data/")
-    
     
 def download(configure):
     print ("downloader : start download task !")
+    if not os.path.exists("./data/"):
+        os.makedirs("./data/")
     now = datetime.now()
     timelable = now.strftime('_%Y-%m-%d-%H-%M')
     for target in configure.namelist:
@@ -27,14 +26,16 @@ def download(configure):
                     savepath = savedir+filename+timelable+extension
                 else:
                     savepath = savedir+filename+extension
-                if not os.path.exists(savepath):
-                    try:
-                        urllib.request.urlretrieve(base_url+filename+extension, savepath)
-                    except:
-                        pass
-                    else:
-                        add += 1
-            print ("downloader : downloaded",add,"files")
+                if (os.path.exists(savepath)) and (configure.repeatcheck[target] == 1):
+                    continue
+                    
+                try:
+                    urllib.request.urlretrieve(base_url+filename+extension, savepath)
+                except:
+                    pass
+                else:
+                    add += 1
+            print ("downloader : download",add,target,"files")
             if (target == "JMA_Weather_Chart_1") or (target == "CWB_Skew"):
                 repeatfileremover.removerepeatedfiles(savedir)
         else :

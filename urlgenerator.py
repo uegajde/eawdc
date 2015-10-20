@@ -7,7 +7,7 @@ now = datetime.now()
 def geturl(configure,target):
     filenamelist = []
     fixtimeshift = timedelta(0)
-        
+
     if   target == "JMA_Weather_Chart_1":
         # example : http://www.jma.go.jp/jp/metcht/pdf/kosou/aupq35_00.pdf (only one)
         extension = ".pdf"
@@ -23,12 +23,12 @@ def geturl(configure,target):
         timelabelformat = "%m%d%H"
         extension = ".pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = getfixtimeshift(0,24,"hour","%H",-3,6)
+        fixtimeshift = getfixtimeshift(0,24,"hour",-3,6)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = "ASAS_"+timelabel
             filenamelist.append(filename)
-        fixtimeshift = getfixtimeshift(0,24,"hour","%H",-9,12)
+        fixtimeshift = getfixtimeshift(0,24,"hour",-9,12)
         if configure.density[target] == 6:
             density = 12
         timelabels = gettimelabel(configure.period[target],density,configure.unit[target],fixtimeshift,timelabelformat)
@@ -53,7 +53,7 @@ def geturl(configure,target):
         timelabelformat = "%Y-%m%d-%H00"
         extension = ".jpg" 
         base_url = "http://www.cwb.gov.tw/V7/forecast/fcst/Data/"
-        fixtimeshift = getfixtimeshift(0,24,"hour","%H",0,6)
+        fixtimeshift = getfixtimeshift(0,24,"hour",0,6)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = timelabel+"_SFCcombo"
@@ -75,22 +75,29 @@ def geturl(configure,target):
             multiplier = configure.density[target]
         else:
             multiplier = 6
-        fixtimeshift = getfixtimeshift(0,60,"min","%M",0,multiplier)
+        fixtimeshift = getfixtimeshift(0,60,"min",0,multiplier)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = timelabel+".2MOS0"
             filenamelist.append(filename)
-    elif target == "CWB_Satellite":
-        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HSAO/HSAO-2014-04-20-11-30.jpg (every 30 min)
-        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HS1Q/HS1Q-2014-04-20-11-30.jpg (every 30 min)
+    elif target == "CWB_Satellite_Visible":
+        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HSAO/HSAO-2014-04-20-11-30.jpg (every 10 min)
         timelabelformat = "%Y-%m-%d-%H-%M"
         extension = ".jpg" 
         base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/HSAO/"
-        fixtimeshift = getfixtimeshift(0,60,"min","%M",0,30)
+        fixtimeshift = getfixtimeshift(0,60,"min",0,10)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = "HSAO-"+timelabel
             filenamelist.append(filename)
+    elif target == "CWB_Satellite_Infrared":
+        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HS1Q/HS1Q-2014-04-20-11-30.jpg (every 10 min)
+        timelabelformat = "%Y-%m-%d-%H-%M"
+        extension = ".jpg" 
+        base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/HS1Q/"
+        fixtimeshift = getfixtimeshift(0,60,"min",0,10)
+        timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
+        for timelabel in timelabels:
             filename = "HS1Q-"+timelabel
             filenamelist.append(filename)
     elif target == "CWB_Surface_Temperature":
@@ -107,7 +114,7 @@ def geturl(configure,target):
         timelabelformat = "%m%d%H%M"
         extension = ".jpg" 
         base_url = "http://www.cwb.gov.tw/V7/observe/rainfall/Data/"
-        fixtimeshift = getfixtimeshift(0,60,"min","%M",0,30)
+        fixtimeshift = getfixtimeshift(0,60,"min",0,30)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             monlabel = int(timelabel[0:2])
@@ -125,7 +132,7 @@ def geturl(configure,target):
         timelabelformat = "%y%m%d%H"
         extension = ".gif" 
         base_url = "http://www.cwb.gov.tw/V7/forecast/nwp/Data/GFS/"
-        fixtimeshift = getfixtimeshift(0,24,"hour","%H",0,6)
+        fixtimeshift = getfixtimeshift(0,24,"hour",0,6)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = "GFS_"+timelabel+"_DS2-GE_000"
@@ -135,7 +142,7 @@ def geturl(configure,target):
         timelabelformat = "%y%m%d%H"
         extension = ".gif" 
         base_url = "http://www.cwb.gov.tw/V7/forecast/nwp/Data/GFS/"
-        fixtimeshift = getfixtimeshift(0,24,"hour","%H",0,6)
+        fixtimeshift = getfixtimeshift(0,24,"hour",0,6)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = "GFS_"+timelabel+"_D51D2S-GE_000"
@@ -158,14 +165,23 @@ def gettimelabel(period,density,unit,fixtimeshift,format):
         before += density
     return timelabels
     
-def getfixtimeshift(start,end,unit,format,timezoneshift,multiplier):
+def getfixtimeshift(start,end,unit,timezoneshift,multiplier):
+    if (unit == "minute") or (unit == "min"):
+        format = "%M"
+    elif (unit == "hour") or (unit == "hr"):
+        format = "%H"
+    elif unit == "day":
+        format = "%d"
     for before in range(start,end):
         if (unit == "minute") or (unit == "min"):
             fixtimeshift = timedelta(0,int(-1*60*before))
+            format = "%M"
         elif (unit == "hour") or (unit == "hr"):
             fixtimeshift = timedelta(0,int(-1*3600*before))
+            format = "%H"
         elif unit == "day":
             fixtimeshift = timedelta(int(-1*before))
+            format = "%d"
         fixedtime = now + fixtimeshift
         if (int(fixedtime.strftime(format))+timezoneshift)%multiplier == 0:
             break
