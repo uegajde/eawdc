@@ -67,18 +67,19 @@ def geturl(configure,target):
         filenamelist.append("SKW_46699")
         filenamelist.append("SKW_46750")
     elif target == "CWB_Radar":
-        # example : http://www.cwb.gov.tw/V7/observe/radar/Data/MOS2_1024/2014-04-20_1148.2MOS0.jpg (every 6 min)
-        timelabelformat = "%Y-%m-%d_%H%M"
+        # example : http://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV1_3600_201605161930.jpg (every 10 min)
+        timelabelformat = "%Y%m%d%H%M"
         extension = ".jpg" 
-        base_url = "http://www.cwb.gov.tw/V7/observe/radar/Data/MOS2_1024/"
-        if configure.density[target] != 6:
+        base_url = "http://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/"
+        if configure.density[target] != 10:
             multiplier = configure.density[target]
         else:
-            multiplier = 6
+            multiplier = 10
         fixtimeshift = getfixtimeshift(0,60,"min",0,multiplier)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
-            filename = timelabel+".2MOS0"
+            filename = "CV1_3600_"+timelabel
+            print(filename)
             filenamelist.append(filename)
     elif target == "CWB_Satellite_Visible":
         # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HSAO/HSAO-2014-04-20-11-30.jpg (every 10 min)
@@ -119,11 +120,11 @@ def geturl(configure,target):
         for timelabel in timelabels:
             monlabel = int(timelabel[0:2])
             if monlabel == 10:
-                monlabel = a
+                monlabel = "a"
             elif monlabel == 11:   
-                monlabel = b
+                monlabel = "b"
             elif monlabel == 12:    
-                monlabel = c
+                monlabel = "c"
             monlabel = str(monlabel)
             filename = "hk"+monlabel+timelabel[2:7]
             filenamelist.append(filename)

@@ -2,7 +2,7 @@
 
 # program version information
 
-version = "2.0 beta-2 (20150804)"
+version = "2.0 beta-2 (20160516)"
 author = "Lin Zhe-Hui"
 print ("LZ Downloader")
 print ("Version : ",version)
