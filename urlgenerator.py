@@ -67,9 +67,9 @@ def geturl(configure,target):
         filenamelist.append("SKW_46699")
         filenamelist.append("SKW_46750")
     elif target == "CWB_Radar":
-        # example : http://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV1_3600_201605161930.jpg (every 10 min)
+        # example : http://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/CV1_3600_201605161930.png (every 10 min)
         timelabelformat = "%Y%m%d%H%M"
-        extension = ".jpg" 
+        extension = ".png" 
         base_url = "http://www.cwb.gov.tw/V7/observe/radar/Data/HD_Radar/"
         if configure.density[target] != 10:
             multiplier = configure.density[target]
@@ -79,27 +79,26 @@ def geturl(configure,target):
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
             filename = "CV1_3600_"+timelabel
-            print(filename)
             filenamelist.append(filename)
     elif target == "CWB_Satellite_Visible":
-        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HSAO/HSAO-2014-04-20-11-30.jpg (every 10 min)
+        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/sbo/sbo-2016-08-12-19-50.jpg (every 10 min)
         timelabelformat = "%Y-%m-%d-%H-%M"
         extension = ".jpg" 
-        base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/HSAO/"
+        base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/sbo/"
         fixtimeshift = getfixtimeshift(0,60,"min",0,10)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
-            filename = "HSAO-"+timelabel
+            filename = "sbo-"+timelabel
             filenamelist.append(filename)
     elif target == "CWB_Satellite_Infrared":
-        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/HS1Q/HS1Q-2014-04-20-11-30.jpg (every 10 min)
+        # example : http://www.cwb.gov.tw/V7/observe/satellite/Data/s3q/s3q-2016-08-12-23-30.jpg (every 10 min)
         timelabelformat = "%Y-%m-%d-%H-%M"
         extension = ".jpg" 
-        base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/HS1Q/"
+        base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/s3q/"
         fixtimeshift = getfixtimeshift(0,60,"min",0,10)
         timelabels = gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat)
         for timelabel in timelabels:
-            filename = "HS1Q-"+timelabel
+            filename = "s3q-"+timelabel
             filenamelist.append(filename)
     elif target == "CWB_Surface_Temperature":
         # example : http://www.cwb.gov.tw/V7/observe/temperature/Data/2014-04-20_2000.GTP.jpg (every 1 hr)
