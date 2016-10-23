@@ -1,19 +1,19 @@
-# LZ Downloader
+# East Asia Weather Data Collector
 
 # program version information
 
-version = "2.0 beta-2 (20160516)"
+version = "2.0 beta-3 (20171023)"
 author = "Lin Zhe-Hui"
-print ("LZ Downloader")
+print ("East Asia Weather Data Collector")
 print ("Version : ",version)
 print ("__________________________")
 # github site : https://github.com/uegajde/LZ_Downloader
 
 import configloader
-import downloader
+import dfdnt.downloader
 
 # start to download
-downloader.download(configloader.configure)
+dfdnt.downloader.download(dfdnt.defconfig.configure)
 
 # finalize
 print ("all task is done")

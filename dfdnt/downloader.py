@@ -1,5 +1,5 @@
 import urlgenerator
-import repeatfileremover
+import dfdnt.repeatfileremover
 import urllib.request
 import os
 from datetime import datetime
@@ -37,7 +37,7 @@ def download(configure):
                     add += 1
             print ("downloader : download",add,target,"files")
             if (target == "JMA_Weather_Chart_1") or (target == "CWB_Skew"):
-                repeatfileremover.removerepeatedfiles(savedir)
+                dfdnt.repeatfileremover.removerepeatedfiles(savedir)
         else :
             print ("downloader :",target,"is cancelled")
     return
