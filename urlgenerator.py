@@ -8,6 +8,7 @@ now = datetime.now()
 def geturl(configure,target):
     filenamelist = []
     fixtimeshift = timedelta(0)
+    mode = configure.mode[target]
 
     if   target == "JMA_Weather_Chart_1":
         # example : http://www.jma.go.jp/jp/metcht/pdf/kosou/aupq35_00.pdf (only one)
@@ -18,10 +19,10 @@ def geturl(configure,target):
         filenamelist.append("aupq78_00")
         filenamelist.append("aupq78_12")
     elif target == "JMA_Weather_Chart_2":
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_042509.pdf   (every 6  hr)
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_042509.pdf (every 12 hr)
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_042509.pdf (every 12 hr)
-        timelabelformat = "%m%d%H"
+        # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_2017112715.pdf   (every 6  hr)
+        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_2017112621.pdf (every 12 hr)
+        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_2017042509.pdf (every 12 hr)
+        timelabelformat = "%Y%m%d%H"
         extension = ".pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
         fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(0,24,"hour",-3,6,now)
@@ -39,15 +40,14 @@ def geturl(configure,target):
             filename = "AUPQ35_"+timelabel
             filenamelist.append(filename)
     elif target == "JMA_WaterVapor_Image":
-        # example : http://www.jma.go.jp/jp/gms/imgs/1/watervapor/1/201502021715-00.png (every 15 or 00 min)
-        timelabelformat = "%Y%m%d%H"
-        extension = ".png" 
-        base_url = "http://www.jma.go.jp/jp/gms/imgs/1/watervapor/1/"
+        # example : http://www.jma.go.jp/jp/gms/imgs/0/watervapor/1/201711280020-00.png (every 10 min)
+        timelabelformat = "%Y%m%d%H%M"
+        extension = ".png"
+        base_url = "http://www.jma.go.jp/jp/gms/imgs/0/watervapor/1/"
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(0,60,"min",0,10,now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(configure.period[target],configure.density[target],configure.unit[target],fixtimeshift,timelabelformat,now)
         for timelabel in timelabels:
-            filename = timelabel+"00-00"
-            filenamelist.append(filename)
-            filename = timelabel+"15-00"
+            filename = timelabel+"-00"
             filenamelist.append(filename)
     elif target == "CWB_Surface_Weather_Chart":
         # example : http://www.cwb.gov.tw/V7/forecast/fcst/Data/2014-0508-0600_SFCcombo.jpg (every 6 hr)
@@ -148,4 +148,4 @@ def geturl(configure,target):
         for timelabel in timelabels:
             filename = "GFS_"+timelabel+"_D51D2S-GE_000"
             filenamelist.append(filename)
-    return [base_url, filenamelist, extension]
+    return [mode, base_url, filenamelist, extension]

@@ -5,18 +5,16 @@ class configure:
     period = {}
     unit = {}
     density = {}
+    again = {}
     repeatcheck = {}
     namelist = []
-    def __init__(self, name, switch, unit, period, density, repeatcheck):
+    mode = {}
+    def __init__(self, name, switch, unit, period, density, again, repeatcheck, mode):
         configure.namelist.append(name)
         configure.switch[name] = switch
         configure.period[name] = period
         configure.unit[name] = unit
         configure.density[name] = density
+        configure.again[name] = again
         configure.repeatcheck[name] = repeatcheck
-        self.name = name
-        self.switch = switch
-        self.period = period
-        self.unit = unit
-        self.density = density
-        self.order = configure.number
+        configure.mode[name] = mode
