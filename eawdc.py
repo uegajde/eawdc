@@ -2,7 +2,7 @@
 
 # program version information
 
-version = "2.0 beta-3 (20171023)"
+version = "2.0 beta-5 (20171128)"
 author = "Lin Zhe-Hui"
 print ("East Asia Weather Data Collector")
 print ("Version : ",version)

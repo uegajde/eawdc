@@ -1,7 +1,6 @@
 import hashlib
 import os
 
-
 def removerepeatedfiles(path):
     delfiles = 0
     hash = []
@@ -25,5 +24,4 @@ def removerepeatedfiles(path):
             elif vailed == 0:
                 delfiles += 1
                 os.remove(filepath)
-    print ("repeatfileremover : remove",delfiles,"repeated files")
-    return
+    return delfiles
