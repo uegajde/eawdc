@@ -3,7 +3,6 @@ import os
 
 
 def removerepeatedfiles(path):
-    print ("repeatfileremover : removing repeated files")
     delfiles = 0
     hash = []
     for tops, dirs, files in os.walk(path):
