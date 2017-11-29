@@ -1,8 +1,8 @@
 # East Asia Weather Data Collector (eawdc)
 
-    version : 2.0 beta-5
+    version : 2.0 beta-7
     Author : Lin Z.H.  
-    Update Date : 2017/11/28  
+    Update Date : 2017/11/29  
     Github : https://github.com/uegajde/eawdc  
     Language : Python (v3 and later)  
     License : FREE  

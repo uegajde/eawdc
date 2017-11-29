@@ -6,6 +6,7 @@ class timeConfigure:
     density = {}
     again = {}
     namelist = []
+
     def __init__(self, name, switch, unit, period, density, again):
         timeConfigure.namelist.append(name)
         timeConfigure.switch[name] = switch
@@ -14,22 +15,22 @@ class timeConfigure:
         timeConfigure.density[name] = density
         timeConfigure.again[name] = again
 
-## prepare for future version
+# prepare for future version
 # class urlConfigure:
 #     namelist = []
 #     mode = {}
 #     base_url = {}
-#     timezone = {}
+#     datatz = {}
 #     timeformat = {}
 #     extension = {}
 #     tr_unit = {}
 #     tr_shift = {}
 #     tr_multiplier = {}
-#     def __init__(self, name, mode, base_url, timezone, timeformat, extension, tr_unit, tr_shift, tr_multiplier):
+#     def __init__(self, name, mode, base_url, datatz, timeformat, extension, tr_unit, tr_shift, tr_multiplier):
 #         urlConfigure.namelist.append(name)
 #         urlConfigure.mode[name] = mode
 #         urlConfigure.base_url[name] = base_url
-#         urlConfigure.timezone[name] = timezone
+#         urlConfigure.datatz[name] = datatz
 #         urlConfigure.timeformat[name] = timeformat
 #         urlConfigure.extension[name] = extension
 #         urlConfigure.suffix[name] = suffix
