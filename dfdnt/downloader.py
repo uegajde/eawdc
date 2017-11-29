@@ -3,88 +3,139 @@ import dfdnt.repeatfileremover
 import urllib.request
 import os
 import sys
+import time
 from datetime import datetime
 import threading
     
-def download(configure):
-    print ("start download task !")
+def download(timeConfigure):
+    print ("start download tasks!")
     if not os.path.exists("./data/"):
         os.makedirs("./data/")
     now = datetime.now()
     timelable = now.strftime('_%Y-%m-%d-%H-%M')
 
+    stateCounter(timeConfigure)
+
     threads = []
-    for target in configure.namelist:
-        thread = downloaderThread(target, configure, target, timelable)
-        threads.append(thread)
-    
+    for target in timeConfigure.namelist:
+        if timeConfigure.switch[target] == 1 :
+            thread = downloaderThread(timeConfigure, target, timelable)
+            threads.append(thread)
     for thread in threads:
         thread.start()
-        
-    for thread in threads:
-        thread.join()
+    printState(timeConfigure.namelist)
+
+    printSummary(timeConfigure.namelist)
 
 class downloaderThread(threading.Thread):
-    def __init__(self, name, configure, target, timelable):
+    def __init__(self, timeConfigure, target, timelable):
         threading.Thread.__init__(self)
-        self.name = name
-        self.configure = configure
+        self.timeConfigure = timeConfigure
         self.target = target
         self.timelable = timelable
     def run(self):
-        coreByFilenamelist(self.configure, self.target, self.timelable)
+        coreByFilenamelist(self.timeConfigure, self.target, self.timelable)
 
-def coreByFilenamelist(configure,target,timelable):
-    if configure.switch[target] != 1 :
-        print (target,"is cancelled")
-        return
+def coreByFilenamelist(timeConfigure,target,timelable):
+    global stateCounter 
+
     savedir = "./data/"+target+"/"
     if not os.path.exists(savedir):
         os.makedirs(savedir)
-    [mode, base_url, filenamelist, extension] = urlgenerator.geturl(configure,target)
-    
-    ## stateMessage
-    ctTotal = len(filenamelist)
-    ctProcessed = 0
-    ctDownloaded = 0
-    ctAgain = 0
-    ctExisted = 0
-    ctNotAvailable = 0
-    ctRemoved = 0
+    [mode, base_url, filenamelist, extension] = urlgenerator.geturl(timeConfigure,target)
 
     for filename in filenamelist:
-        ctProcessed = ctProcessed+1
         ## generate filename
         if (mode == 0):
-            savepath = savedir+filename+extension
+            savepath = savedir+filename+'.'+extension
         elif (mode == 1):
-            savepath = savedir+filename+timelable+extension
+            savepath = savedir+filename+timelable+'.'+extension
 
         ## error checks
         # check if file is already downloaded or not
         if (os.path.exists(savepath)):
-            ctExisted += 1 
-            if (configure.again[target] == 0):
+            stateCounter.existed[target] += 1
+            if (timeConfigure.again[target] == 0):
+                stateCounter.remaining[target] -= 1
                 continue
             else:
-                ctAgain += 1
-                pass
+                stateCounter.again[target] += 1
         # check if file exist on the server or not
         try:
-            response = urllib.request.urlopen(base_url+filename+extension)
+            response = urllib.request.urlopen(base_url+filename+'.'+extension)
         except:
-            ctNotAvailable += 1
+            stateCounter.unavailable[target] += 1
+            stateCounter.remaining[target] -= 1
             continue
         else:
             pass
+        if response != 200:
+            stateCounter.unavailable[target] += 1
+            stateCounter.remaining[target] -= 1
+            continue
 
         ## download
-        urllib.request.urlretrieve(base_url+filename+extension, savepath)
-        ctDownloaded += 1
+        urllib.request.urlretrieve(base_url+filename+'.'+extension, savepath)
+        stateCounter.downloaded[target] += 1
+        stateCounter.remaining[target] -= 1
+
     ## delete repeated data
     if (mode == 1):
-        ctRemoved = dfdnt.repeatfileremover.removerepeatedfiles(savedir)
-    print("{:<32}".format(target)+"{:0>3d}".format(ctProcessed)+"/"+"{:0>3d}".format(ctTotal)+" files "+\
-                            "(D:"+"{:0>3d}".format(ctDownloaded)+"/A:"+"{:0>3d}".format(ctAgain)+\
-                            "/E:"+"{:0>3d}".format(ctExisted)+"/N:"+"{:0>3d}".format(ctNotAvailable)+\
-                            "/R:"+"{:0>3d}".format(ctRemoved)+") - Done")
+        stateCounter.removed[target] = dfdnt.repeatfileremover.removerepeatedfiles(savedir)
+    stateCounter.working[target] = 0
+
+class stateCounter:
+    working = {}
+    remaining = {}
+    downloaded = {}
+    again = {}
+    existed = {}
+    unavailable = {}
+    removed = {}
+    def __init__(self, timeConfigure):
+        for target in timeConfigure.namelist:
+            [mode, base_url, filenamelist, extension] = urlgenerator.geturl(timeConfigure,target)
+            stateCounter.working[target] = 1
+            stateCounter.remaining[target] = len(filenamelist)
+            stateCounter.downloaded[target] = 0
+            stateCounter.again[target] = 0
+            stateCounter.existed[target] = 0
+            stateCounter.unavailable[target] = 0
+            stateCounter.removed[target] = 0
+
+def printState(namelist):
+    global stateCounter
+
+    sys.stdout.write("tasks    ")
+    for itarget in range(1,len(namelist)+1):
+        sys.stdout.write(" "+"{: >3d}".format(itarget))
+    sys.stdout.write("\n")
+    
+    messagelength = 9+4*len(namelist)
+    while True:
+        sys.stdout.write("remaining")
+        for target in namelist:
+            sys.stdout.write(" "+"{: >3d}".format(stateCounter.remaining[target]))
+        sys.stdout.flush()
+        sys.stdout.write("\b" * messagelength)
+        time.sleep(0.06)
+        if (sum(stateCounter.working.values()) == 0):
+            break
+    sys.stdout.write("remaining")
+    for target in namelist:
+        sys.stdout.write(" "+"{: >3d}".format(0))
+    sys.stdout.flush()
+    sys.stdout.write("\n")
+    print ("all tasks are done")
+
+def printSummary(namelist):
+    print("SUMMARY   -   D:Download / A:Again / E:Exist / U:Unavailable / R:RemoveRepeat")
+    
+    for target in namelist:
+        print("{:<32}".format(target)+\
+            "{: >3d}".format(stateCounter.downloaded[target]-stateCounter.removed[target]-stateCounter.again[target])+" new files "+\
+            "(D:"+"{: <3d}".format(stateCounter.downloaded[target])+\
+            " A:"+"{: <3d}".format(stateCounter.again[target])+\
+            " E:"+"{: <3d}".format(stateCounter.existed[target])+\
+            " U:"+"{: <3d}".format(stateCounter.unavailable[target])+\
+            " R:"+"{: <3d}".format(stateCounter.removed[target])+")")
