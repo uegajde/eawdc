@@ -9,23 +9,27 @@ import urlgenerator
 
 
 def download(timeConfigure):
+    # initial
     print("start download tasks!")
     if not os.path.exists("./data/"):
         os.makedirs("./data/")
     now = datetime.now()
     timelable = now.strftime('_%Y-%m-%d-%H-%M')
 
+    # initial download state
     DLState(timeConfigure)
 
+    # open thread for download tasks
     threads = []
     for target in timeConfigure.namelist:
-        if timeConfigure.switch[target] == 1:
+        if timeConfigure.switch[target]:
             thread = downloaderThread(timeConfigure, target, timelable)
             threads.append(thread)
     for thread in threads:
         thread.start()
-    printState(timeConfigure.namelist)
 
+    # print progress
+    printState(timeConfigure.namelist)
     printSummary(timeConfigure.namelist)
 
 
@@ -46,8 +50,7 @@ def coreByFilenamelist(timeConfigure, target, timelable):
     savedir = "./data/" + target + "/"
     if not os.path.exists(savedir):
         os.makedirs(savedir)
-    [mode, base_url, filenamelist, extension] = urlgenerator.geturl(
-        timeConfigure, target)
+    mode, base_url, filenamelist, extension = urlgenerator.geturl(timeConfigure, target)
 
     for filename in filenamelist:
         # generate filename
@@ -60,7 +63,7 @@ def coreByFilenamelist(timeConfigure, target, timelable):
         # check if file is already downloaded or not
         if os.path.exists(savepath):
             DLState.existed[target] += 1
-            if timeConfigure.again[target] == 0:
+            if timeConfigure.again:
                 DLState.remaining[target] -= 1
                 DLState.new = True
                 continue
@@ -68,8 +71,7 @@ def coreByFilenamelist(timeConfigure, target, timelable):
                 DLState.again[target] += 1
         # check if file exist on the server or not
         try:
-            response = urllib.request.urlopen(
-                base_url + filename + '.' + extension)
+            urllib.request.urlopen(base_url + filename + '.' + extension)
         except:
             DLState.unavailable[target] += 1
             DLState.remaining[target] -= 1
@@ -78,8 +80,7 @@ def coreByFilenamelist(timeConfigure, target, timelable):
 
         # download
         try:
-            urllib.request.urlretrieve(
-                base_url + filename + '.' + extension, savepath)
+            urllib.request.urlretrieve(base_url + filename + '.' + extension, savepath)
             DLState.downloaded[target] += 1
             DLState.remaining[target] -= 1
             DLState.new = True
@@ -92,6 +93,7 @@ def coreByFilenamelist(timeConfigure, target, timelable):
     # delete repeated data
     if mode == 1:
         DLState.removed[target] = removerepeatedfiles(savedir)
+        DLState.new = True
     DLState.working[target] = 0
 
 
@@ -108,8 +110,7 @@ class DLState:
 
     def __init__(self, timeConfigure):
         for target in timeConfigure.namelist:
-            [mode, base_url, filenamelist, extension] = urlgenerator.geturl(
-                timeConfigure, target)
+            _, _, filenamelist, _ = urlgenerator.geturl(timeConfigure, target)
             DLState.working[target] = 1
             DLState.remaining[target] = len(filenamelist)
             DLState.downloaded[target] = 0
@@ -134,23 +135,17 @@ def printState(namelist):
         if DLState.new:
             sys.stdout.write("remaining")
             for target in namelist:
-                sys.stdout.write(
-                    " " + "{: >3d}".format(DLState.remaining[target]))
+                sys.stdout.write(" " + "{: >3d}".format(DLState.remaining[target]))
             sys.stdout.flush()
             sys.stdout.write("\b" * messagelength)
             DLState.new = False
         elif sum(DLState.working.values()) == 0:
             break
-    sys.stdout.write("remaining")
-    for target in namelist:
-        sys.stdout.write(" " + "{: >3d}".format(0))
-    sys.stdout.flush()
     sys.stdout.write("\nall tasks are done\n")
 
 
 def printSummary(namelist):
     print("SUMMARY      -      (Download / Again / Exist / Unavailable / RemoveRepeat / Error)")
-
     for target in namelist:
         print("{:<32}".format(target) +
               "{: >3d}".format(DLState.downloaded[target] - DLState.removed[target] - DLState.again[target]) + " new files " +
@@ -175,14 +170,14 @@ def removerepeatedfiles(path):
             hasher.update(buf)
             newhash = hasher.hexdigest()
 
-            vailed = 1
+            vailed = True
             for vailedhash in hashlist:
                 if vailedhash == newhash:
-                    vailed = 0
+                    vailed = False
                     break
-            if vailed == 1:
+            if vailed:
                 hashlist.append(newhash)
-            elif vailed == 0:
+            else:
                 delfiles += 1
                 os.remove(filepath)
     return delfiles

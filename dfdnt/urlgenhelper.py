@@ -11,14 +11,13 @@ def gettimelabel(period, density, unit, fixtimeshift, tformat, datatimezone, now
             timeshift = timedelta(0, int(-1 * 3600 * before))
         elif unit == "day":
             timeshift = timedelta(int(-1 * before))
-        targettime = now + timeshift + fixtimeshift + \
-            timedelta(0, int(3600 * datatimezone))
+        targettime = now + timeshift + fixtimeshift + timedelta(0, int(3600 * datatimezone))
         timelabels.append(targettime.strftime(tformat))
         before += density
     return timelabels
 
 
-def getfixtimeshift(unit, shift, multiplier, datatimezone, now):
+def getfixtimeshift(unit, shift, multiplier, now):
     start = 0
     if (unit == "minute") or (unit == "min"):
         end = 60
@@ -37,7 +36,7 @@ def getfixtimeshift(unit, shift, multiplier, datatimezone, now):
         elif unit == "day":
             fixtimeshift = timedelta(int(-1 * before))
             tformat = "%d"
-        fixedtime = now + fixtimeshift + timedelta(0, int(3600 * datatimezone))
+        fixedtime = now + fixtimeshift
         if (int(fixedtime.strftime(tformat)) + shift) % multiplier == 0:
             break
     return fixtimeshift

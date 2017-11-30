@@ -3,18 +3,18 @@ import dfdnt.defconfig
 # load time configure
 print ("configloader : loading time configure")
 # name, switch, unit, period, density, again
-dfdnt.defconfig.timeConfigure('JMA_Weather_Chart_1'            , 1, "hour",      1,  1, 0)
-dfdnt.defconfig.timeConfigure('JMA_Weather_Chart_2'            , 1, "hour",     48,  6, 0)
-dfdnt.defconfig.timeConfigure('JMA_WaterVapor_Image'           , 1, "minute", 1080, 10, 0)
-dfdnt.defconfig.timeConfigure('CWB_Surface_Weather_Chart'      , 1, "hour",     48,  1, 0)
-dfdnt.defconfig.timeConfigure('CWB_Skew'                       , 1, "hour",      1,  1, 0)
-dfdnt.defconfig.timeConfigure('CWB_Radar'                      , 1, "minute", 1080, 30, 0)
-dfdnt.defconfig.timeConfigure('CWB_Satellite_Visible'          , 1, "minute", 1080, 10, 0)
-dfdnt.defconfig.timeConfigure('CWB_Satellite_Infrared'         , 1, "minute", 1080, 10, 0)
-dfdnt.defconfig.timeConfigure('CWB_Surface_Temperature'        , 1, "hour",     18,  1, 0)
-dfdnt.defconfig.timeConfigure('CWB_Precipitation'              , 1, "minute", 1080, 30, 0)
-dfdnt.defconfig.timeConfigure('CWB_850hpa_WindSpeed_Streamline', 1, "hour",     48,  6, 0)
-dfdnt.defconfig.timeConfigure('CWB_850hpa_RH_Streamline'       , 1, "hour",     48,  6, 0)
+dfdnt.defconfig.timeConfigure('JMA_Weather_Chart_1'            , True, "hour",      1,  1, False)
+dfdnt.defconfig.timeConfigure('JMA_Weather_Chart_2'            , True, "hour",     48,  6, False)
+dfdnt.defconfig.timeConfigure('JMA_WaterVapor_Image'           , True, "minute", 1080, 10, False)
+dfdnt.defconfig.timeConfigure('CWB_Surface_Weather_Chart'      , True, "hour",     48,  6, False)
+dfdnt.defconfig.timeConfigure('CWB_Skew'                       , True, "hour",      1,  1, False)
+dfdnt.defconfig.timeConfigure('CWB_Radar'                      , True, "minute", 1080, 30, False)
+dfdnt.defconfig.timeConfigure('CWB_Satellite_Visible'          , True, "minute", 1080, 10, False)
+dfdnt.defconfig.timeConfigure('CWB_Satellite_Infrared'         , True, "minute", 1080, 10, False)
+dfdnt.defconfig.timeConfigure('CWB_Surface_Temperature'        , True, "hour",     18,  1, False)
+dfdnt.defconfig.timeConfigure('CWB_Precipitation'              , True, "minute", 1080, 30, False)
+dfdnt.defconfig.timeConfigure('CWB_850hpa_WindSpeed_Streamline', True, "hour",     48,  6, False)
+dfdnt.defconfig.timeConfigure('CWB_850hpa_RH_Streamline'       , True, "hour",     48,  6, False)
 
 
 ## prepare for future version

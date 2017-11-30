@@ -27,15 +27,13 @@ def geturl(timeConfigure, target):
         timelabelformat = "%Y%m%d%H"
         extension = "pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "hour", -3, 6, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("hour", 0, 6, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
             filename = "ASAS_" + timelabel
             filenamelist.append(filename)
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "hour", -9, 12, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("hour", 0, 12, now)
         if timeConfigure.density[target] == 6:
             density = 12
         timelabels = dfdnt.urlgenhelper.gettimelabel(
@@ -52,8 +50,7 @@ def geturl(timeConfigure, target):
         timelabelformat = "%Y%m%d%H%M-00"
         extension = "png"
         base_url = "http://www.jma.go.jp/jp/gms/imgs/0/watervapor/1/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "min", 0, 10, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("min", 0, 10, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -61,12 +58,11 @@ def geturl(timeConfigure, target):
     elif target == "CWB_Surface_Weather_Chart":
         # example : http://www.cwb.gov.tw/V7/forecast/fcst/Data/2014-0508-0600_SFCcombo.jpg (every 6 hr)
         mode = 0
-        datatz = +8
+        datatz = +0
         timelabelformat = "%Y-%m%d-%H00_SFCcombo"
         extension = "jpg"
         base_url = "http://www.cwb.gov.tw/V7/forecast/fcst/Data/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "hour", 0, 6, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("hour", 0, 6, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -91,8 +87,7 @@ def geturl(timeConfigure, target):
             multiplier = timeConfigure.density[target]
         else:
             multiplier = 10
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "min", 0, multiplier, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("min", 0, multiplier, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -104,8 +99,7 @@ def geturl(timeConfigure, target):
         timelabelformat = "sbo-%Y-%m-%d-%H-%M"
         extension = "jpg"
         base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/sbo/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "min", 0, 10, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("min", 0, 10, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -117,8 +111,7 @@ def geturl(timeConfigure, target):
         timelabelformat = "s3q-%Y-%m-%d-%H-%M"
         extension = "jpg"
         base_url = "http://www.cwb.gov.tw/V7/observe/satellite/Data/s3q/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "min", 0, 10, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("min", 0, 10, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -130,8 +123,7 @@ def geturl(timeConfigure, target):
         timelabelformat = "%Y-%m-%d_%H00.GTP"
         extension = "jpg"
         base_url = "http://www.cwb.gov.tw/V7/observe/temperature/Data/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "hr", 0, 1, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("hr", 0, 1, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -143,8 +135,7 @@ def geturl(timeConfigure, target):
         timelabelformat = "%m%d%H%M"
         extension = "jpg"
         base_url = "http://www.cwb.gov.tw/V7/observe/rainfall/Data/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "min", 0, 30, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("min", 0, 30, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -161,12 +152,11 @@ def geturl(timeConfigure, target):
     elif target == "CWB_850hpa_WindSpeed_Streamline":
         # example : http://www.cwb.gov.tw/V7/forecast/nwp/Data/GFS/GFS_14041918_DS2-GE_000.gif (every 6 hr)
         mode = 0
-        datatz = +8
+        datatz = +0
         timelabelformat = "GFS_%y%m%d%H_DS2-GE_000"
         extension = "gif"
         base_url = "http://www.cwb.gov.tw/V7/forecast/nwp/Data/GFS/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "hour", 0, 6, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("hour", 0, 6, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -174,14 +164,13 @@ def geturl(timeConfigure, target):
     elif target == "CWB_850hpa_RH_Streamline":
         # example : http://www.cwb.gov.tw/V7/forecast/nwp/Data/GFS/GFS_15020200_D51D2S-GE_000.gif (every 6 hr)
         mode = 0
-        datatz = +8
+        datatz = +0
         timelabelformat = "GFS_%y%m%d%H_D51D2S-GE_000"
         extension = "gif"
         base_url = "http://www.cwb.gov.tw/V7/forecast/nwp/Data/GFS/"
-        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift(
-            "hour", 0, 6, datatz, now)
+        fixtimeshift = dfdnt.urlgenhelper.getfixtimeshift("hour", 0, 6, now)
         timelabels = dfdnt.urlgenhelper.gettimelabel(
             timeConfigure.period[target], timeConfigure.density[target], timeConfigure.unit[target], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
             filenamelist.append(timelabel)
-    return [mode, base_url, filenamelist, extension]
+    return mode, base_url, filenamelist, extension
