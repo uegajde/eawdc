@@ -1,14 +1,19 @@
 # East Asia Weather Data Collector
-import configloader
-import dfdnt.downloader
+import settings
+import urlgenhelper
+import urlgenerator
+import mtd
 
-
-version = "2.0 beta-8 (20171130)"
-author = "Lin Zhe-Hui"
 print("East Asia Weather Data Collector")
-print("Version : ", version)
-print("__________________________")
 
+# preparing
+again = {}
+removerepeat = {}
+urls = {}
+savenames = {}
+tasklist = urlgenhelper.timeConfigure.namelist
+for task in tasklist:
+    again[task], removerepeat[task], urls[task], savenames[task] = urlgenerator.geturl(urlgenhelper.timeConfigure, task)
 
 # start to download
-dfdnt.downloader.download(dfdnt.defconfig.timeConfigure)
+mtd.download(tasklist, again, removerepeat, urls, savenames)

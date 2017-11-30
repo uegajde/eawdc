@@ -1,4 +1,20 @@
+from datetime import datetime
 from datetime import timedelta
+
+
+class timeConfigure:
+    period = {}
+    unit = {}
+    density = {}
+    again = {}
+    namelist = []
+
+    def __init__(self, name, unit, period, density, again):
+       timeConfigure.namelist.append(name)
+       timeConfigure.period[name] = period
+       timeConfigure.unit[name] = unit
+       timeConfigure.density[name] = density
+       timeConfigure.again[name] = again
 
 
 def gettimelabel(period, density, unit, fixtimeshift, tformat, datatimezone, now):
@@ -40,3 +56,21 @@ def getfixtimeshift(unit, shift, multiplier, now):
         if (int(fixedtime.strftime(tformat)) + shift) % multiplier == 0:
             break
     return fixtimeshift
+
+
+def urlcomposer(mode, base_url, filenamelist, extension):
+    # url info
+    urls = []
+    savenames = []
+    localnow = datetime.now()
+    timelable = localnow.strftime('_%Y-%m-%d-%H-%M')
+
+    if mode == 0:
+        for filename in filenamelist:
+            urls.append(base_url + filename + '.' + extension)
+            savenames.append(filename + '.' + extension)
+    elif mode == 1:
+        for filename in filenamelist:
+            urls.append(base_url + filename + '.' + extension)
+            savenames.append(filename + timelable + '.' + extension)
+    return urls, savenames

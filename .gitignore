@@ -102,6 +102,7 @@ $RECYCLE.BIN/
 
 # downloaded
 data/
+download/
 
 # py2exe
 setup.py
