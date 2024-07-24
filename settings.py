@@ -19,9 +19,9 @@ blankTime = 30 # unit: minute
 # load time configure
 # name, unit, period, timeInterval, again, timeAlignUnit, timeAlignShift, timeAlignMultiplier
 maxHr = 12
-urlgenhelper.timeConfigure('JMA_Weather_Chart_ASAS'         , "hour"  , maxHr   ,  6, False, 'hour',   0,  6)
-urlgenhelper.timeConfigure('JMA_Weather_Chart_AUPQ78'       , "hour"  , maxHr   , 12, False, 'hour',   0, 12)
-urlgenhelper.timeConfigure('JMA_Weather_Chart_AUPQ35'       , "hour"  , maxHr   , 12, False, 'hour',   0, 12)
+urlgenhelper.timeConfigure('JMA_Weather_Chart_ASAS'         , "hour"  , maxHr   ,  6,  True, 'hour',   0,  6)
+urlgenhelper.timeConfigure('JMA_Weather_Chart_AUPQ78'       , "hour"  , maxHr   , 12,  True, 'hour',   0, 12)
+urlgenhelper.timeConfigure('JMA_Weather_Chart_AUPQ35'       , "hour"  , maxHr   , 12,  True, 'hour',   0, 12)
 urlgenhelper.timeConfigure('CWA_Surface_Analysis'           , "hour"  , maxHr   ,  6, False, 'hour',   0,  6)
 urlgenhelper.timeConfigure('CWA_Skew'                       , "hour"  , maxHr   , 12, False, 'hour',   0, 12)
 urlgenhelper.timeConfigure('CWA_Radar'                      , "minute", maxHr*60, 30, False, 'minute', 0, 10)
