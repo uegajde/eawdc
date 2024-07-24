@@ -1,6 +1,5 @@
 import settings
 import datetime
-from datetime import timedelta
 import urlgenhelper
 
 now = datetime.datetime.now(datetime.UTC)-datetime.timedelta(minutes=settings.blankTime)
@@ -8,45 +7,38 @@ now = datetime.datetime.now(datetime.UTC)-datetime.timedelta(minutes=settings.bl
 
 def geturl(timeConfigure, task):
     filenamelist = []
-    fixtimeshift = timedelta(0)
     addDownloadTimeLabel = False
     removeRepeat = False
 
     if task == "JMA_Weather_Chart_ASAS":
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_2017112715.pdf   (every 6  hr)
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_2017112621.pdf (every 12 hr)
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_2017042509.pdf (every 12 hr)
         datatz = +9
         timelabelformat = "ASAS_%Y%m%d%H"
         extension = "pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 6, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
             filenamelist.append(timelabel)
     elif task == "JMA_Weather_Chart_AUPQ78":
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_2017112715.pdf   (every 6  hr)
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_2017112621.pdf (every 12 hr)
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_2017042509.pdf (every 12 hr)
         datatz = +9
         timelabelformat = "AUPQ78_%Y%m%d%H"
         extension = "pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 12, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
             filenamelist.append(timelabel)
     elif task == "JMA_Weather_Chart_AUPQ35":
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_2017112715.pdf   (every 6  hr)
-        # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_2017112621.pdf (every 12 hr)
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_2017042509.pdf (every 12 hr)
         datatz = +9
         timelabelformat = "AUPQ35_%Y%m%d%H"
         extension = "pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 12, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -57,7 +49,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "GRA___000_%y%m%d%H_103"
         extension = "gif"
         base_url = "https://npd.cwa.gov.tw/NPD/irisme_data/Weather/ANALYSIS/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 6, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -69,7 +61,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "SKW___000_%y%m%d%H"
         extension = "gif"
         base_url = "https://npd.cwa.gov.tw/NPD/irisme_data/Weather/SKEWT/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 12, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -86,7 +78,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "CV1_3600_%Y%m%d%H%M"
         extension = "png"
         base_url = "https://www.cwa.gov.tw/Data/radar/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 10, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -97,7 +89,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "LCC_VIS_TRGB_2750-%Y-%m-%d-%H-%M"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/LCC_VIS_TRGB_2750/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 10, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -108,7 +100,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "TWI_VIS_TRGB_1375-%Y-%m-%d-%H-%M"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/TWI_VIS_TRGB_1375/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 10, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -119,7 +111,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "LCC_IR1_MB_2750-%Y-%m-%d-%H-%M"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/LCC_IR1_MB_2750/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 10, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -130,7 +122,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "TWI_IR1_MB_800-%Y-%m-%d-%H-%M"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/TWI_IR1_MB_800/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 10, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -141,7 +133,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "%Y-%m-%d_%H00.GTP8"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/temperature/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hr", 0, 1, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -152,7 +144,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "%Y-%m-%d_%H%M.QZJ8"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/rainfall/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 30, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -163,7 +155,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "%Y-%m-%d_%H%M.QZJ8.grd2"
         extension = "jpg"
         base_url = "https://www.cwa.gov.tw/Data/rainfall/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 30, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
@@ -174,7 +166,7 @@ def geturl(timeConfigure, task):
         timelabelformat = "%Y-%m-%d_%H00.GWD"
         extension = "png"
         base_url = "https://www.cwa.gov.tw/Data/windspeed/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 1, now)
+        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:

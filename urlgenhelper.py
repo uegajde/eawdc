@@ -9,12 +9,19 @@ class timeConfigure:
     again = {}
     namelist = []
 
-    def __init__(self, name, unit, period, timeInterval, again):
+    timeAlignUnit = {}
+    timeAlignShift = {}
+    timeAlignMultiplier = {}
+
+    def __init__(self, name, unit, period, timeInterval, again, timeAlignUnit, timeAlignShift, timeAlignMultiplier):
        timeConfigure.namelist.append(name)
        timeConfigure.period[name] = period
        timeConfigure.unit[name] = unit
        timeConfigure.timeInterval[name] = timeInterval
        timeConfigure.again[name] = again
+       timeConfigure.timeAlignUnit[name] = timeAlignUnit
+       timeConfigure.timeAlignShift[name] = timeAlignShift
+       timeConfigure.timeAlignMultiplier[name] = timeAlignMultiplier
 
 
 def gettimelabel(period, timeInterval, unit, fixtimeshift, tformat, datatimezone, now):
