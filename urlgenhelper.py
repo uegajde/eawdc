@@ -5,19 +5,19 @@ from datetime import timedelta
 class timeConfigure:
     period = {}
     unit = {}
-    density = {}
+    timeInterval = {}
     again = {}
     namelist = []
 
-    def __init__(self, name, unit, period, density, again):
+    def __init__(self, name, unit, period, timeInterval, again):
        timeConfigure.namelist.append(name)
        timeConfigure.period[name] = period
        timeConfigure.unit[name] = unit
-       timeConfigure.density[name] = density
+       timeConfigure.timeInterval[name] = timeInterval
        timeConfigure.again[name] = again
 
 
-def gettimelabel(period, density, unit, fixtimeshift, tformat, datatimezone, now):
+def gettimelabel(period, timeInterval, unit, fixtimeshift, tformat, datatimezone, now):
     timelabels = []
     before = 0
     while before < period:
@@ -29,7 +29,7 @@ def gettimelabel(period, density, unit, fixtimeshift, tformat, datatimezone, now
             timeshift = timedelta(int(-1 * before))
         targettime = now + timeshift + fixtimeshift + timedelta(0, int(3600 * datatimezone))
         timelabels.append(targettime.strftime(tformat))
-        before += density
+        before += timeInterval
     return timelabels
 
 

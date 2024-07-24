@@ -17,7 +17,7 @@ show_toDownload = True
 blankTime = 30 # unit: minute
 
 # load time configure
-# name, unit, period, density, again
+# name, unit, period, timeInterval, again
 maxHr = 12
 urlgenhelper.timeConfigure('JMA_Weather_Chart_ASAS'         , "hour"  , maxHr   ,  6, False)
 urlgenhelper.timeConfigure('JMA_Weather_Chart_AUPQ78'       , "hour"  , maxHr   , 12, False)
