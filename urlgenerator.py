@@ -1,8 +1,8 @@
-from datetime import datetime
+import datetime
 from datetime import timedelta
 import urlgenhelper
 
-now = datetime.utcnow()
+now = datetime.datetime.now(datetime.UTC)
 
 
 def geturl(timeConfigure, task):
