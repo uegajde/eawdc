@@ -1,5 +1,9 @@
 import urlgenhelper 
 
+# destinationDir
+# the directory/folder to save downloaded files
+destinationDir = './download/'
+
 # doDownload
 # perform download, set to False when you just want to obtain the urls
 doDownload = False

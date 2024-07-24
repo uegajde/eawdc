@@ -3,6 +3,7 @@ import settings
 import urlgenhelper
 import urlgenerator
 import mtd
+mtd.destinationDir = settings.destinationDir
 
 print("East Asia Weather Data Collector")
 

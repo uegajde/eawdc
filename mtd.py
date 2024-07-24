@@ -5,12 +5,13 @@ import threading
 import time
 import hashlib
 
+destinationDir = './download/'
 
 def download(tasklist, again, removerepeat, urls, savenames):
     # initial
     print("start download tasks!")
-    if not os.path.exists("./download/"):
-        os.makedirs("./download/")
+    if not os.path.exists(destinationDir):
+        os.makedirs(destinationDir)
 
     # initial download state
     DLState(tasklist, urls)
@@ -18,7 +19,7 @@ def download(tasklist, again, removerepeat, urls, savenames):
     # open thread for download tasks
     threads = []
     for task in tasklist:
-        savedir = "./download/" + task + "/"
+        savedir = destinationDir +'/' + task + "/"
         if not os.path.exists(savedir):
             os.makedirs(savedir)
         thread = downloaderThread(task, again[task], removerepeat[task], urls[task], savedir, savenames[task])
