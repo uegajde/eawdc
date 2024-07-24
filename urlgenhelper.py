@@ -28,11 +28,11 @@ def gettimelabel(period, timeInterval, unit, fixtimeshift, tformat, datatimezone
     timelabels = []
     before = 0
     while before < period:
-        if (unit == "minute") or (unit == "min"):
+        if unit in ['minutes', 'minute', 'min', 'm']:
             timeshift = timedelta(0, int(-1 * 60 * before))
-        elif (unit == "hour") or (unit == "hr"):
+        elif unit in ['hours', 'hour', 'hr', 'h']:
             timeshift = timedelta(0, int(-1 * 3600 * before))
-        elif unit == "day":
+        elif unit in ['days', 'day', 'd']:
             timeshift = timedelta(int(-1 * before))
         targettime = now + timeshift + fixtimeshift + timedelta(0, int(3600 * datatimezone))
         timelabels.append(targettime.strftime(tformat))
@@ -42,21 +42,21 @@ def gettimelabel(period, timeInterval, unit, fixtimeshift, tformat, datatimezone
 
 def getfixtimeshift(unit, shift, multiplier, now):
     start = 0
-    if (unit == "minute") or (unit == "min"):
+    if unit in ['minutes', 'minute', 'min', 'm']:
         end = 60
         tformat = "%M"
-    elif (unit == "hour") or (unit == "hr"):
+    elif unit in ['hours', 'hour', 'hr', 'h']:
         end = 24
         tformat = "%H"
 
     for before in range(start, end):
-        if (unit == "minute") or (unit == "min"):
+        if unit in ['minutes', 'minute', 'min', 'm']:
             fixtimeshift = timedelta(0, int(-1 * 60 * before))
             tformat = "%M"
-        elif (unit == "hour") or (unit == "hr"):
+        elif unit in ['hours', 'hour', 'hr', 'h']:
             fixtimeshift = timedelta(0, int(-1 * 3600 * before))
             tformat = "%H"
-        elif unit == "day":
+        elif unit in ['days', 'day', 'd']:
             fixtimeshift = timedelta(int(-1 * before))
             tformat = "%d"
         fixedtime = now + fixtimeshift
