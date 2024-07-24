@@ -9,16 +9,7 @@ def geturl(timeConfigure, task):
     filenamelist = []
     fixtimeshift = timedelta(0)
 
-    if task == "JMA_Weather_Chart":
-        # example : http://www.jma.go.jp/jp/metcht/pdf/kosou/aupq35_00.pdf (only one)
-        mode = 1
-        extension = "pdf"
-        base_url = "http://www.jma.go.jp/jp/metcht/pdf/kosou/"
-        filenamelist.append("aupq35_00")
-        filenamelist.append("aupq35_12")
-        filenamelist.append("aupq78_00")
-        filenamelist.append("aupq78_12")
-    elif task == "JMA_Weather_Chart_ASAS":
+    if task == "JMA_Weather_Chart_ASAS":
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_2017112715.pdf   (every 6  hr)
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_2017112621.pdf (every 12 hr)
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_2017042509.pdf (every 12 hr)
@@ -56,18 +47,6 @@ def geturl(timeConfigure, task):
         extension = "pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
         fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 12, now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.density[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
-    elif task == "JMA_WaterVapor_Image":
-        # example : http://www.jma.go.jp/jp/gms/imgs/0/watervapor/1/201711280020-00.png (every 10 min)
-        mode = 0
-        datatz = +9
-        timelabelformat = "%Y%m%d%H%M-00"
-        extension = "png"
-        base_url = "http://www.jma.go.jp/jp/gms/imgs/0/watervapor/1/"
-        fixtimeshift = urlgenhelper.getfixtimeshift("min", 0, 10, now)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.density[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
