@@ -44,19 +44,19 @@ def geturl(timeConfigure, task):
         # example : https://npd.cwa.gov.tw/NPD/irisme_data/Weather/SKEWT/SKW___000_24072400_46699.gif (every 12 min)
         # 台北氣象站(46692)/東沙島氣象站(46810)/花蓮氣象站(46699)/屏東機場(46750)/馬公機場(46734)/彭佳嶼(46695)/綠島探空站(46780)
         datatz = +0
-        fileNameFormat = "SKW___000_%y%m%d%H.gif"
+        fileNameFormat = "SKW___000_%y%m%d%H"
         base_url = "https://npd.cwa.gov.tw/NPD/irisme_data/Weather/SKEWT/"
         fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
         timelabels = urlgenhelper.gettimelabel(timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, fileNameFormat, datatz, now)
         filenamelist = []
         for timelabel in timelabels:
-            filenamelist.append(timelabel+"_46692")
-            filenamelist.append(timelabel+"_46810")
-            filenamelist.append(timelabel+"_46699")
-            filenamelist.append(timelabel+"_46750")
-            filenamelist.append(timelabel+"_46734")
-            filenamelist.append(timelabel+"_46695")
-            filenamelist.append(timelabel+"_46780")
+            filenamelist.append(timelabel+"_46692.gif")
+            filenamelist.append(timelabel+"_46810.gif")
+            filenamelist.append(timelabel+"_46699.gif")
+            filenamelist.append(timelabel+"_46750.gif")
+            filenamelist.append(timelabel+"_46734.gif")
+            filenamelist.append(timelabel+"_46695.gif")
+            filenamelist.append(timelabel+"_46780.gif")
     elif task == "CWA_Radar":
         # example : https://www.cwa.gov.tw/Data/radar/CV1_3600_202407241300.png (every 10 min)
         datatz = +8
