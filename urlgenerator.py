@@ -186,7 +186,6 @@ def geturl(timeConfigure, task):
         extension = "png"
         base_url = "https://www.cwa.gov.tw/Data/windspeed/"
         fixtimeshift = urlgenhelper.getfixtimeshift("hour", 0, 1, now)
-        print(fixtimeshift)
         timelabels = urlgenhelper.gettimelabel(
             timeConfigure.period[task], timeConfigure.density[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
         for timelabel in timelabels:
