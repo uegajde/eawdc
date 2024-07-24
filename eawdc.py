@@ -15,5 +15,12 @@ tasklist = urlgenhelper.timeConfigure.namelist
 for task in tasklist:
     again[task], removerepeat[task], urls[task], savenames[task] = urlgenerator.geturl(urlgenhelper.timeConfigure, task)
 
+if settings.show_toDownload:
+    for ikey in urls.keys():
+        print("------------------------------------------------")
+        print(ikey)
+        for url in urls[ikey]:
+            print(url)
+
 # start to download
 mtd.download(tasklist, again, removerepeat, urls, savenames)

@@ -1,5 +1,7 @@
 import urlgenhelper 
 
+show_toDownload = False
+
 # load time configure
 # name, unit, period, density, again
 urlgenhelper.timeConfigure('JMA_Weather_Chart'              , "hour",      1,  1, False)
