@@ -1,6 +1,16 @@
 import urlgenhelper 
 
-show_toDownload = False
+# doDownload
+# perform download, set to False when you just want to obtain the urls
+doDownload = False
+
+# show the url list going to request
+show_toDownload = True
+
+# blankTime:
+# blank time for the data productor preparing the latest one
+# timelabel within blank time will been skipped to avoid meaningless request trial 
+blankTime = 30 # unit: minute
 
 # load time configure
 # name, unit, period, density, again

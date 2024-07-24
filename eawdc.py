@@ -23,4 +23,5 @@ if settings.show_toDownload:
             print(url)
 
 # start to download
-mtd.download(tasklist, again, removerepeat, urls, savenames)
+if settings.doDownload:
+    mtd.download(tasklist, again, removerepeat, urls, savenames)

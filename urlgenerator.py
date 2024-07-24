@@ -1,8 +1,9 @@
+import settings
 import datetime
 from datetime import timedelta
 import urlgenhelper
 
-now = datetime.datetime.now(datetime.UTC)
+now = datetime.datetime.now(datetime.UTC)-datetime.timedelta(minutes=settings.blankTime)
 
 
 def geturl(timeConfigure, task):
