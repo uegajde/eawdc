@@ -7,7 +7,7 @@ import hashlib
 
 destinationDir = './download/'
 
-def download(tasklist, again, removerepeat, urls, savenames):
+def download(tasklist, again, removeRepeat, urls, filenamesToSaveAs):
     # initial
     print("start download tasks!")
     if not os.path.exists(destinationDir):
@@ -22,7 +22,7 @@ def download(tasklist, again, removerepeat, urls, savenames):
         savedir = destinationDir +'/' + task + "/"
         if not os.path.exists(savedir):
             os.makedirs(savedir)
-        thread = downloaderThread(task, again[task], removerepeat[task], urls[task], savedir, savenames[task])
+        thread = downloaderThread(task, again[task], removeRepeat[task], urls[task], savedir, filenamesToSaveAs[task])
         threads.append(thread)
     for thread in threads:
         thread.start()
@@ -33,25 +33,25 @@ def download(tasklist, again, removerepeat, urls, savenames):
 
 
 class downloaderThread(threading.Thread):
-    def __init__(self, task, again, removerepeat, urls, savedir, savenames):
+    def __init__(self, task, again, removeRepeat, urls, savedir, filenamesToSaveAs):
         threading.Thread.__init__(self)
         self.task = task
         self.again = again
-        self.removerepeat = removerepeat
+        self.removeRepeat = removeRepeat
         self.urls = urls
         self.savedir = savedir
-        self.savenames = savenames
+        self.filenamesToSaveAs = filenamesToSaveAs
 
     def run(self):
-        coreByFilenamelist(self.task, self.again, self.removerepeat, self.urls, self.savedir, self.savenames)
+        coreByFilenamelist(self.task, self.again, self.removeRepeat, self.urls, self.savedir, self.filenamesToSaveAs)
 
 
-def coreByFilenamelist(task, again, removerepeat, urls, savedir, savenames):
+def coreByFilenamelist(task, again, removeRepeat, urls, savedir, filenamesToSaveAs):
     global DLState
 
     for iurl in range(0,len(urls)):
         # check if file is already downloaded or not
-        if os.path.exists(savedir+savenames[iurl]):
+        if os.path.exists(savedir+filenamesToSaveAs[iurl]):
             DLState.existed[task] += 1
             if not again:
                 DLState.remaining[task] -= 1
@@ -70,19 +70,19 @@ def coreByFilenamelist(task, again, removerepeat, urls, savedir, savenames):
 
         # download
         try:
-            urllib.request.urlretrieve(urls[iurl], savedir+savenames[iurl])
+            urllib.request.urlretrieve(urls[iurl], savedir+filenamesToSaveAs[iurl])
             DLState.downloaded[task] += 1
             DLState.remaining[task] -= 1
             DLState.new = True
         except:
-            if os.path.exists(savedir+savenames[iurl]):
-                os.remove(savedir+savenames[iurl])
+            if os.path.exists(savedir+filenamesToSaveAs[iurl]):
+                os.remove(savedir+filenamesToSaveAs[iurl])
             DLState.error[task] += 1
             DLState.remaining[task] -= 1
             DLState.new = True
     # delete repeated data
-    if removerepeat:
-        DLState.removed[task] = removerepeatedfiles(savedir)
+    if removeRepeat:
+        DLState.removed[task] = removeRepeatedfiles(savedir)
         DLState.new = True
 
 
@@ -143,7 +143,7 @@ def printSummary(namelist):
               " E:" + "{: <3d}".format(DLState.error[task]) + ")")
 
 
-def removerepeatedfiles(path):
+def removeRepeatedfiles(path):
     delfiles = 0
     hashlist = []
     for tops, _, files in os.walk(path):

@@ -58,19 +58,19 @@ def getfixtimeshift(unit, shift, multiplier, now):
     return fixtimeshift
 
 
-def urlcomposer(mode, base_url, filenamelist, extension):
+def urlcomposer(base_url, filenamelist, extension, addDownloadTimeLabel):
     # url info
     urls = []
-    savenames = []
+    filenamesToSaveAs = []
     localnow = datetime.now()
     timelable = localnow.strftime('_%Y-%m-%d-%H-%M')
 
-    if mode == 0:
+    if addDownloadTimeLabel is False:
         for filename in filenamelist:
             urls.append(base_url + filename + '.' + extension)
-            savenames.append(filename + '.' + extension)
-    elif mode == 1:
+            filenamesToSaveAs.append(filename + '.' + extension)
+    elif addDownloadTimeLabel is True:
         for filename in filenamelist:
             urls.append(base_url + filename + '.' + extension)
-            savenames.append(filename + timelable + '.' + extension)
-    return urls, savenames
+            filenamesToSaveAs.append(filename + timelable + '.' + extension)
+    return urls, filenamesToSaveAs

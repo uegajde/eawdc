@@ -9,12 +9,12 @@ print("East Asia Weather Data Collector")
 
 # preparing
 again = {}
-removerepeat = {}
+removeRepeat = {}
 urls = {}
-savenames = {}
+filenamesToSaveAs = {}
 tasklist = urlgenhelper.timeConfigure.namelist
 for task in tasklist:
-    again[task], removerepeat[task], urls[task], savenames[task] = urlgenerator.geturl(urlgenhelper.timeConfigure, task)
+    again[task], removeRepeat[task], urls[task], filenamesToSaveAs[task] = urlgenerator.geturl(urlgenhelper.timeConfigure, task)
 
 if settings.show_toDownload:
     for ikey in urls.keys():
@@ -25,4 +25,4 @@ if settings.show_toDownload:
 
 # start to download
 if settings.doDownload:
-    mtd.download(tasklist, again, removerepeat, urls, savenames)
+    mtd.download(tasklist, again, removeRepeat, urls, filenamesToSaveAs)
