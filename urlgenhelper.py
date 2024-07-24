@@ -65,7 +65,7 @@ def getfixtimeshift(unit, shift, multiplier, now):
     return fixtimeshift
 
 
-def urlcomposer(base_url, filenamelist, extension, addDownloadTimeLabel):
+def urlcomposer(base_url, filenamelist, addDownloadTimeLabel):
     # url info
     urls = []
     filenamesToSaveAs = []
@@ -74,10 +74,10 @@ def urlcomposer(base_url, filenamelist, extension, addDownloadTimeLabel):
 
     if addDownloadTimeLabel is False:
         for filename in filenamelist:
-            urls.append(base_url + filename + '.' + extension)
-            filenamesToSaveAs.append(filename + '.' + extension)
+            urls.append(base_url + filename)
+            filenamesToSaveAs.append(filename)
     elif addDownloadTimeLabel is True:
         for filename in filenamelist:
-            urls.append(base_url + filename + '.' + extension)
-            filenamesToSaveAs.append(filename + timelable + '.' + extension)
+            urls.append(base_url + filename)
+            filenamesToSaveAs.append(filename + timelable)
     return urls, filenamesToSaveAs

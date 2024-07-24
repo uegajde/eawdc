@@ -4,66 +4,51 @@ import urlgenhelper
 
 now = datetime.datetime.now(datetime.UTC)-datetime.timedelta(minutes=settings.blankTime)
 
+def getTimeDependFileNameList(cfg, task, dataTimeZone, fileNameFormat):
+    filenamelist = []
+    fixtimeshift = urlgenhelper.getfixtimeshift(cfg.timeAlignUnit[task], cfg.timeAlignShift[task], cfg.timeAlignMultiplier[task], now)
+    timelabels = urlgenhelper.gettimelabel(cfg.period[task], cfg.timeInterval[task], cfg.unit[task], fixtimeshift, fileNameFormat, dataTimeZone, now)
+    for timelabel in timelabels:
+        filenamelist.append(timelabel)
+    return filenamelist
 
 def geturl(timeConfigure, task):
-    filenamelist = []
     addDownloadTimeLabel = False
     removeRepeat = False
 
     if task == "JMA_Weather_Chart_ASAS":
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/ASAS_2017112715.pdf   (every 6  hr)
         datatz = +9
-        timelabelformat = "ASAS_%Y%m%d%H"
-        extension = "pdf"
+        fileNameFormat = "ASAS_%Y%m%d%H.pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "JMA_Weather_Chart_AUPQ78":
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ78_2017112621.pdf (every 12 hr)
         datatz = +9
-        timelabelformat = "AUPQ78_%Y%m%d%H"
-        extension = "pdf"
+        fileNameFormat = "AUPQ78_%Y%m%d%H.pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "JMA_Weather_Chart_AUPQ35":
         # example : http://www.hbc.co.jp/tecweather/archive/pdf/AUPQ35_2017042509.pdf (every 12 hr)
         datatz = +9
-        timelabelformat = "AUPQ35_%Y%m%d%H"
-        extension = "pdf"
+        fileNameFormat = "AUPQ35_%Y%m%d%H.pdf"
         base_url = "http://www.hbc.jp/tecweather/archive/pdf/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Surface_Analysis":
         #  example : https://npd.cwa.gov.tw/NPD/irisme_data/Weather/ANALYSIS/GRA___000_24072400_103.gif
         datatz = +0
-        timelabelformat = "GRA___000_%y%m%d%H_103"
-        extension = "gif"
+        fileNameFormat = "GRA___000_%y%m%d%H_103.gif"
         base_url = "https://npd.cwa.gov.tw/NPD/irisme_data/Weather/ANALYSIS/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Skew":
         # example : https://npd.cwa.gov.tw/NPD/irisme_data/Weather/SKEWT/SKW___000_24072400_46699.gif (every 12 min)
         # 台北氣象站(46692)/東沙島氣象站(46810)/花蓮氣象站(46699)/屏東機場(46750)/馬公機場(46734)/彭佳嶼(46695)/綠島探空站(46780)
         datatz = +0
-        timelabelformat = "SKW___000_%y%m%d%H"
-        extension = "gif"
+        fileNameFormat = "SKW___000_%y%m%d%H.gif"
         base_url = "https://npd.cwa.gov.tw/NPD/irisme_data/Weather/SKEWT/"
         fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
+        timelabels = urlgenhelper.gettimelabel(timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, fileNameFormat, datatz, now)
+        filenamelist = []
         for timelabel in timelabels:
             filenamelist.append(timelabel+"_46692")
             filenamelist.append(timelabel+"_46810")
@@ -75,106 +60,61 @@ def geturl(timeConfigure, task):
     elif task == "CWA_Radar":
         # example : https://www.cwa.gov.tw/Data/radar/CV1_3600_202407241300.png (every 10 min)
         datatz = +8
-        timelabelformat = "CV1_3600_%Y%m%d%H%M"
-        extension = "png"
+        fileNameFormat = "CV1_3600_%Y%m%d%H%M.png"
         base_url = "https://www.cwa.gov.tw/Data/radar/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Visible_EastAsia":
         # example : https://www.cwa.gov.tw/Data/satellite/LCC_VIS_TRGB_2750/LCC_VIS_TRGB_2750-2024-07-24-12-50.jpg (every 10 min)
         datatz = +8
-        timelabelformat = "LCC_VIS_TRGB_2750-%Y-%m-%d-%H-%M"
-        extension = "jpg"
+        fileNameFormat = "LCC_VIS_TRGB_2750-%Y-%m-%d-%H-%M.jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/LCC_VIS_TRGB_2750/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Visible_TW":
         # example : https://www.cwa.gov.tw/Data/satellite/TWI_VIS_TRGB_1375/TWI_VIS_TRGB_1375-2024-07-24-12-50.jpg (every 10 min)
         datatz = +8
-        timelabelformat = "TWI_VIS_TRGB_1375-%Y-%m-%d-%H-%M"
-        extension = "jpg"
+        fileNameFormat = "TWI_VIS_TRGB_1375-%Y-%m-%d-%H-%M.jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/TWI_VIS_TRGB_1375/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Infrared_EastAsia":
         # example : https://www.cwa.gov.tw/Data/satellite/LCC_IR1_MB_2750/LCC_IR1_MB_2750-2024-07-24-13-00.jpg (every 10 min)
         datatz = +8
-        timelabelformat = "LCC_IR1_MB_2750-%Y-%m-%d-%H-%M"
-        extension = "jpg"
+        fileNameFormat = "LCC_IR1_MB_2750-%Y-%m-%d-%H-%M.jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/LCC_IR1_MB_2750/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Infrared_TW":
         # example : https://www.cwa.gov.tw/Data/satellite/TWI_IR1_MB_800/TWI_IR1_MB_800-2024-07-24-13-00.jpg (every 10 min)
         datatz = +8
-        timelabelformat = "TWI_IR1_MB_800-%Y-%m-%d-%H-%M"
-        extension = "jpg"
+        fileNameFormat = "TWI_IR1_MB_800-%Y-%m-%d-%H-%M.jpg"
         base_url = "https://www.cwa.gov.tw/Data/satellite/TWI_IR1_MB_800/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Surface_Temperature":
         # example : https://www.cwa.gov.tw/Data/temperature/2024-07-24_1300.GTP8.jpg (every 1 hr)
         datatz = +8
-        timelabelformat = "%Y-%m-%d_%H00.GTP8"
-        extension = "jpg"
+        fileNameFormat = "%Y-%m-%d_%H00.GTP8.jpg"
         base_url = "https://www.cwa.gov.tw/Data/temperature/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Precipitation":
         # example : https://www.cwa.gov.tw/Data/rainfall/2024-07-24_1300.QZJ8.jpg (every 30 min)
         datatz = +8
-        timelabelformat = "%Y-%m-%d_%H%M.QZJ8"
-        extension = "jpg"
+        fileNameFormat = "%Y-%m-%d_%H%M.QZJ8.jpg"
         base_url = "https://www.cwa.gov.tw/Data/rainfall/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Precipitation_ex":
         # example : https://www.cwa.gov.tw/Data/rainfall/2024-07-24_1330.QZJ8.grd2.jpg (every 30 min)
         datatz = +8
-        timelabelformat = "%Y-%m-%d_%H%M.QZJ8.grd2"
-        extension = "jpg"
+        fileNameFormat = "%Y-%m-%d_%H%M.QZJ8.grd2.jpg"
         base_url = "https://www.cwa.gov.tw/Data/rainfall/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_WindSpeed_Observation":
         # example : https://www.cwa.gov.tw/Data/windspeed/2024-07-24_1000.GWD.png (every 1 hour)
         datatz = +8
-        timelabelformat = "%Y-%m-%d_%H00.GWD"
-        extension = "png"
+        fileNameFormat = "%Y-%m-%d_%H00.GWD.png"
         base_url = "https://www.cwa.gov.tw/Data/windspeed/"
-        fixtimeshift = urlgenhelper.getfixtimeshift(timeConfigure.timeAlignUnit[task], timeConfigure.timeAlignShift[task], timeConfigure.timeAlignMultiplier[task], now)
-        timelabels = urlgenhelper.gettimelabel(
-            timeConfigure.period[task], timeConfigure.timeInterval[task], timeConfigure.unit[task], fixtimeshift, timelabelformat, datatz, now)
-        for timelabel in timelabels:
-            filenamelist.append(timelabel)
+        filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
 
     again = timeConfigure.again[task]
     removeRepeat = addDownloadTimeLabel
 
-    urls, filenamesToSaveAs = urlgenhelper.urlcomposer(base_url, filenamelist, extension, addDownloadTimeLabel)
+    urls, filenamesToSaveAs = urlgenhelper.urlcomposer(base_url, filenamelist, addDownloadTimeLabel)
 
     return again, removeRepeat, urls, filenamesToSaveAs 
