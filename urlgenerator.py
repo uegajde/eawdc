@@ -64,16 +64,16 @@ def geturl(timeConfigure, task):
         base_url = "https://www.cwa.gov.tw/Data/radar/"
         filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Visible_EastAsia":
-        # example : https://www.cwa.gov.tw/Data/satellite/LCC_VIS_TRGB_2750/LCC_VIS_TRGB_2750-2024-07-24-12-50.jpg (every 10 min)
+        # example : https://www.cwa.gov.tw/Data/satellite/LCC_TRGB_2750/LCC_TRGB_2750-2025-07-06-22-00.jpg (every 10 min)
         datatz = +8
-        fileNameFormat = "LCC_VIS_TRGB_2750-%Y-%m-%d-%H-%M.jpg"
-        base_url = "https://www.cwa.gov.tw/Data/satellite/LCC_VIS_TRGB_2750/"
+        fileNameFormat = "LCC_TRGB_2750-%Y-%m-%d-%H-%M.jpg"
+        base_url = "https://www.cwa.gov.tw/Data/satellite/LCC_TRGB_2750/"
         filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Visible_TW":
-        # example : https://www.cwa.gov.tw/Data/satellite/TWI_VIS_TRGB_1375/TWI_VIS_TRGB_1375-2024-07-24-12-50.jpg (every 10 min)
+        # example : https://www.cwa.gov.tw/Data/satellite/TWI_TRGB_1350/TWI_TRGB_1350-2025-07-06-22-00.jpg (every 10 min)
         datatz = +8
-        fileNameFormat = "TWI_VIS_TRGB_1375-%Y-%m-%d-%H-%M.jpg"
-        base_url = "https://www.cwa.gov.tw/Data/satellite/TWI_VIS_TRGB_1375/"
+        fileNameFormat = "TWI_TRGB_1350-%Y-%m-%d-%H-%M.jpg"
+        base_url = "https://www.cwa.gov.tw/Data/satellite/TWI_TRGB_1350/"
         filenamelist = getTimeDependFileNameList(timeConfigure, task, datatz, fileNameFormat)
     elif task == "CWA_Satellite_Infrared_EastAsia":
         # example : https://www.cwa.gov.tw/Data/satellite/LCC_IR1_MB_2750/LCC_IR1_MB_2750-2024-07-24-13-00.jpg (every 10 min)
